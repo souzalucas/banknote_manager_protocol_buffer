@@ -1,7 +1,23 @@
 syntax = "proto3";
 
-message Person {
-  string name = 1;
-  int32 id = 2;
-  string email = 3;
+message Req {
+  string opCode = 1;
+  
+  int32 RA = 2;
+  float nota = 3;
+  
+  string discCode = 4;
+  int32 ano = 5;
+  int32 semestre = 6;
+}
+
+message Aluno {
+  int32 RA = 1;
+  string nome = 2;
+  int32 periodo = 3;
+}
+
+message Res {
+  string retorno = 1;
+  repeated Aluno alunos = 2;
 }

@@ -13,16 +13,25 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(("localhost", 7000))
 
 # Instanciar e preencher a estrutura
-person = addressbook_pb2.Person()
-person.id = 234
-person.name = "Lucas_Souza"
-person.email = "lsouza.santos98@gmail.com"
+req = addressbook_pb2.Req()
+req.opCode = "addNota"
+req.RA = 1234
+req.nota = 3.3
+req.discCode = "bcc32c"
+req.ano = 2020
+req.semestre = 1
 
 # Marshalling
-msg = person.SerializeToString()
+msg = req.SerializeToString()
 size = len(msg)
 
 client_socket.send((str(size) + "\n").encode())
 client_socket.send(msg)
+
+resposta = client_socket.recv(1024)
+
+res = addressbook_pb2.Res()
+res.ParseFromString(resposta)
+print(res)
 
 client_socket.close()

@@ -19,38 +19,59 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x11\x61\x64\x64ressbook.proto\"1\n\x06Person\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x05\x12\r\n\x05\x65mail\x18\x03 \x01(\tb\x06proto3'
+  serialized_pb=b'\n\x11\x61\x64\x64ressbook.proto\"`\n\x03Req\x12\x0e\n\x06opCode\x18\x01 \x01(\t\x12\n\n\x02RA\x18\x02 \x01(\x05\x12\x0c\n\x04nota\x18\x03 \x01(\x02\x12\x10\n\x08\x64iscCode\x18\x04 \x01(\t\x12\x0b\n\x03\x61no\x18\x05 \x01(\x05\x12\x10\n\x08semestre\x18\x06 \x01(\x05\"2\n\x05\x41luno\x12\n\n\x02RA\x18\x01 \x01(\x05\x12\x0c\n\x04nome\x18\x02 \x01(\t\x12\x0f\n\x07periodo\x18\x03 \x01(\x05\".\n\x03Res\x12\x0f\n\x07retorno\x18\x01 \x01(\t\x12\x16\n\x06\x61lunos\x18\x02 \x03(\x0b\x32\x06.Alunob\x06proto3'
 )
 
 
 
 
-_PERSON = _descriptor.Descriptor(
-  name='Person',
-  full_name='Person',
+_REQ = _descriptor.Descriptor(
+  name='Req',
+  full_name='Req',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='Person.name', index=0,
+      name='opCode', full_name='Req.opCode', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='id', full_name='Person.id', index=1,
+      name='RA', full_name='Req.RA', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='email', full_name='Person.email', index=2,
-      number=3, type=9, cpp_type=9, label=1,
+      name='nota', full_name='Req.nota', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='discCode', full_name='Req.discCode', index=3,
+      number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='ano', full_name='Req.ano', index=4,
+      number=5, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='semestre', full_name='Req.semestre', index=5,
+      number=6, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -67,18 +88,120 @@ _PERSON = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=21,
-  serialized_end=70,
+  serialized_end=117,
 )
 
-DESCRIPTOR.message_types_by_name['Person'] = _PERSON
+
+_ALUNO = _descriptor.Descriptor(
+  name='Aluno',
+  full_name='Aluno',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='RA', full_name='Aluno.RA', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='nome', full_name='Aluno.nome', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='periodo', full_name='Aluno.periodo', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=119,
+  serialized_end=169,
+)
+
+
+_RES = _descriptor.Descriptor(
+  name='Res',
+  full_name='Res',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='retorno', full_name='Res.retorno', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='alunos', full_name='Res.alunos', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=171,
+  serialized_end=217,
+)
+
+_RES.fields_by_name['alunos'].message_type = _ALUNO
+DESCRIPTOR.message_types_by_name['Req'] = _REQ
+DESCRIPTOR.message_types_by_name['Aluno'] = _ALUNO
+DESCRIPTOR.message_types_by_name['Res'] = _RES
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-Person = _reflection.GeneratedProtocolMessageType('Person', (_message.Message,), {
-  'DESCRIPTOR' : _PERSON,
+Req = _reflection.GeneratedProtocolMessageType('Req', (_message.Message,), {
+  'DESCRIPTOR' : _REQ,
   '__module__' : 'addressbook_pb2'
-  # @@protoc_insertion_point(class_scope:Person)
+  # @@protoc_insertion_point(class_scope:Req)
   })
-_sym_db.RegisterMessage(Person)
+_sym_db.RegisterMessage(Req)
+
+Aluno = _reflection.GeneratedProtocolMessageType('Aluno', (_message.Message,), {
+  'DESCRIPTOR' : _ALUNO,
+  '__module__' : 'addressbook_pb2'
+  # @@protoc_insertion_point(class_scope:Aluno)
+  })
+_sym_db.RegisterMessage(Aluno)
+
+Res = _reflection.GeneratedProtocolMessageType('Res', (_message.Message,), {
+  'DESCRIPTOR' : _RES,
+  '__module__' : 'addressbook_pb2'
+  # @@protoc_insertion_point(class_scope:Res)
+  })
+_sym_db.RegisterMessage(Res)
 
 
 # @@protoc_insertion_point(module_scope)
