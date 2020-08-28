@@ -2,36 +2,87 @@ import socket
 import addressbook_pb2
 import sqlite3
 
-# Conectando com o banco de dados
-conn = sqlite3.connect('../database/gerenciamento_notas.db')
-# Definindo um cursor
-cursor = conn.cursor()
-# Desconectando com banco de dados
-conn.close()
-
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(("localhost", 7000))
 
-# Instanciar e preencher a estrutura
-req = addressbook_pb2.Req()
-req.opCode = "listAlunos"
-req.RA = 1858
-req.nota = 95
-req.discCode = "bcc32c"
-req.ano = 2020
-req.semestre = 1
+def main():
+  while(True):
+    opCode = input("Que operação deseja fazer? > ")
 
-# Marshalling
-msg = req.SerializeToString()
-size = len(msg)
+    # Instanciando a estrutura
+    req = addressbook_pb2.Req()
+    req.opCode = str(opCode)
 
-client_socket.send((str(size) + "\n").encode())
-client_socket.send(msg)
+    if (opCode == "addNota"):
+      ra = input("RA do aluno > ")
+      discCode = input("Disciplina > ")
+      ano = input("Ano > ")
+      semestre = input("Semestre > ")
+      nota = input("Nota > ")
 
-resposta = client_socket.recv(1024)
+      # Preencher a estrutura
+      req.RA = int(ra)
+      req.discCode = str(discCode)
+      req.ano = int(ano)
+      req.semestre = int(semestre)
+      req.nota = float(nota)
 
-res = addressbook_pb2.Res()
-res.ParseFromString(resposta)
-print(res)
+    elif (opCode == "rmNota"):
+      ra = input("RA do aluno > ")
+      discCode = input("Disciplina > ")
+      ano = input("Ano > ")
+      semestre = input("Semestre > ")
 
+      # Peencher a estrutura
+      req.RA = int(ra)
+      req.discCode = str(discCode)
+      req.ano = int(ano)
+      req.semestre = int(semestre)
+
+    elif (opCode == "listAlunos"):
+      discCode = input("Codigo da disciplina > ")
+      ano = input("Ano > ")
+      semestre = input("semestre > ")
+
+      # Preencher a estrutura
+      req.discCode = str(discCode)
+      req.ano = int(ano)
+      req.semestre = int(semestre)
+    
+    else:
+      continue
+
+    # Marshalling
+    msg = req.SerializeToString()
+    size = len(msg)
+
+    # Enviando
+    client_socket.send((str(size) + "\n").encode())
+    client_socket.send(msg)
+
+    # Recebendo tamanho da resposta
+    receive = client_socket.recv(1024)
+    bufferSize = int((receive.decode()).split(" ")[0])
+
+    # Recebendo resposta
+    resposta = client_socket.recv(2014)
+    res = addressbook_pb2.Res()
+    res.ParseFromString(resposta)
+
+    if (res.retorno == "1"):
+      if (opCode == "listAlunos"):
+        for aluno in res.alunos:
+          print("RA: ", aluno.RA)
+          print("Nome: ", aluno.nome)
+          print("Periodo: ", aluno.periodo)
+          print("Nota: ", aluno.nota)
+          print("Faltas: ", aluno.faltas)
+          print("-------------------- \n")
+      else:
+        print("Operação realizada com sucesso")
+
+    else:
+      print(res.retorno)
+
+main()
 client_socket.close()

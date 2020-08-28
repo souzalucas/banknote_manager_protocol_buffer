@@ -15,6 +15,8 @@ message Aluno {
   int32 RA = 1;
   string nome = 2;
   int32 periodo = 3;
+  float nota = 4;
+  int32 faltas = 5;
 }
 
 message Res {

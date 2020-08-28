@@ -5,16 +5,17 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.lang.Integer; 
 
 public class ServidorTcpAddressBook {
 
   static Connection dbConnection;
 
-  public static String addNota(Addressbook.Req req) {
-    // System.out.println("--\n" + req + "--\n");
-    
+  public static String addNota(Addressbook.Req req, Addressbook.Res.Builder res) {
     int RA = req.getRA();
     String discCode = req.getDiscCode();
+    int ano = req.getAno();
+    int semestre = req.getSemestre();
     float nota = req.getNota();
 
     try {
@@ -23,28 +24,46 @@ public class ServidorTcpAddressBook {
 
       /* Busca pelo aluno */
       ResultSet resultSet = statement.executeQuery("SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");");
-      if(!resultSet.next()){
-        return "RA não existe";
+      if(!resultSet.isBeforeFirst()){
+        res.setRetorno("RA inexistente");
+        res.build();
+        return "RA inexistente";
       }
 
       /* Busca pela disiplina */
       resultSet = statement.executeQuery("SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(discCode) + "');");
-      if(!resultSet.next()){
-        return "Disciplina não existe";
+      if(!resultSet.isBeforeFirst()){
+        res.setRetorno("Disciplina inexistente");
+        res.build();
+        return "Disciplina inexistente";
+      }
+
+      /* Busca pela matricula */
+      resultSet = statement.executeQuery("SELECT * FROM matricula WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");");
+      if(!resultSet.isBeforeFirst()){
+        res.setRetorno("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
+        res.build();
+        return ("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
       }
 
       /* Atualiza nota */
-      statement.execute("UPDATE matricula SET nota = " + nota + " WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "');");
+      statement.execute("UPDATE matricula SET nota = " + String.valueOf(nota) + " WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");");
+      res.setRetorno("1");
+      res.build();
 
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
+      res.setRetorno(String.valueOf(e.getMessage()));
+      res.build();
+      return String.valueOf(e.getMessage());
     }
     return "1";
   }
 
-  public static String rmNota(Addressbook.Req req) {
+  public static String rmNota(Addressbook.Req req, Addressbook.Res.Builder res) {
     int RA = req.getRA();
     String discCode = req.getDiscCode();
+    int ano = req.getAno();
+    int semestre = req.getSemestre();
 
     try {
 
@@ -52,26 +71,42 @@ public class ServidorTcpAddressBook {
 
       /* Busca pelo aluno */
       ResultSet resultSet = statement.executeQuery("SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");");
-      if(!resultSet.next()){
-        return "RA não existe";
+      if(!resultSet.isBeforeFirst()){
+        res.setRetorno("RA inexistente");
+        res.build();
+        return "RA inexistente";
       }
 
       /* Busca pela disiplina */
       resultSet = statement.executeQuery("SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(discCode) + "');");
-      if(!resultSet.next()){
-        return "Disciplina não existe";
+      if(!resultSet.isBeforeFirst()){
+        res.setRetorno("Disciplina inexistente");
+        res.build();
+        return "Disciplina inexistente";
+      }
+
+      /* Busca pela matricula */
+      resultSet = statement.executeQuery("SELECT * FROM matricula WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");");
+      if(!resultSet.isBeforeFirst()){
+        res.setRetorno("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
+        res.build();
+        return ("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
       }
 
       /* remove nota */
-      statement.execute("UPDATE matricula SET nota = '' WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "');");
+      statement.execute("UPDATE matricula SET nota = '' WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");");
+      res.setRetorno("1");
+      res.build();
 
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
+      res.setRetorno(String.valueOf(e.getMessage()));
+      res.build();
+      return String.valueOf(e.getMessage());
     }
     return "1";
   }
 
-  public static String listAlunos(Addressbook.Req req) {
+  public static String listAlunos(Addressbook.Req req, Addressbook.Res.Builder res) {
     String discCode = req.getDiscCode();
     int ano = req.getAno();
     int semestre = req.getSemestre();
@@ -82,23 +117,44 @@ public class ServidorTcpAddressBook {
 
       /* Busca pela disiplina */
       ResultSet resultSet = statement.executeQuery("SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(discCode) + "');");
-      if(!resultSet.next()){
-        return "Disciplina não existe";
+      if(!resultSet.isBeforeFirst()){
+        res.setRetorno("Disciplina inexistente");
+        res.build();
+        return "Disciplina inexistente";
       }
       
       /* Lista alunos */
-
-      resultSet = statement.executeQuery("SELECT * FROM aluno WHERE (select ra_aluno FROM matricula WHERE ano = " + ano + " AND semestre = " + semestre + " AND cod_disciplina = '" + discCode + "');");
-      // if(!resultSet.next()){
-      //   return "Não há alunos";
-      // }
-
-      while (resultSet.next()) {
-        System.out.println(resultSet.getInt("ra")); 
+      resultSet = statement.executeQuery("SELECT * FROM aluno, matricula WHERE (select ra_aluno FROM matricula WHERE ano = " + String.valueOf(ano) + " AND semestre = " + String.valueOf(semestre) + " AND cod_disciplina = '" + String.valueOf(discCode) + "') AND matricula.ra_aluno = aluno.ra;");
+      if(!resultSet.isBeforeFirst()){
+        res.setRetorno("Nesta disciplina nao ha alunos matriculados em " + String.valueOf(ano) + "/" + String.valueOf(semestre));
+        res.build();
+        return ("Nesta disciplina nao ha alunos matriculados em " + String.valueOf(ano) + "/" + String.valueOf(semestre));
       }
 
+      while (resultSet.next()) {
+
+        /* Construindo Addressbook Aluno */
+        Addressbook.Aluno.Builder aluno = Addressbook.Aluno.newBuilder();
+        
+        /* Adicionando valores no aluno */
+        aluno.setRA(resultSet.getInt("ra"));
+        aluno.setNome(resultSet.getString("nome"));
+        aluno.setPeriodo(resultSet.getInt("periodo"));
+        aluno.setNota(resultSet.getFloat("nota"));
+        aluno.setFaltas(resultSet.getInt("faltas"));
+        aluno.build();
+
+        /* Adicionando aluno */
+        res.addAlunos(aluno);
+      }
+  
+      res.setRetorno("1");
+      res.build();
+
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
+      res.setRetorno(String.valueOf(e.getMessage()));
+      res.build();
+      return String.valueOf(e.getMessage());
     }
     return "1";
   }
@@ -113,8 +169,9 @@ public class ServidorTcpAddressBook {
     try {
       int serverPort = 7000;
       ServerSocket listenSocket = new ServerSocket(serverPort);
+      
+      Socket clientSocket = listenSocket.accept();
       while (true) {
-        Socket clientSocket = listenSocket.accept();
 
         DataInputStream inClient = new DataInputStream(clientSocket.getInputStream());
         DataOutputStream outClient = new DataOutputStream(clientSocket.getOutputStream());
@@ -129,41 +186,36 @@ public class ServidorTcpAddressBook {
         Addressbook.Req req = Addressbook.Req.parseFrom(buffer);
         String opCode = req.getOpCode();
 
+        /* Prepara resposta */
+        Addressbook.Res.Builder res = Addressbook.Res.newBuilder();
+
         switch(opCode) {
           case "addNota":
-            System.out.println("add");
-            addNota(req);
+            addNota(req, res);
           break;
 
           case "rmNota":
-            System.out.println("rm");
-            rmNota(req);
+            rmNota(req, res);
           break;
 
           case "listAlunos":
-            System.out.println("list");
-            listAlunos(req);
+            listAlunos(req, res);
+          break;
+
+          default:
+            res.setRetorno("opCode invalido!");
           break;
         }
         
-        /* exibe na tela */
-        // System.out.println("--\n" + p + "--\n");
-
-        Addressbook.Res.Builder res = Addressbook.Res.newBuilder();
-        
-        Addressbook.Aluno.Builder aluno = Addressbook.Aluno.newBuilder();
-
-        aluno.setRA(Integer.valueOf(1858));
-        aluno.setNome("Lucas Souza");
-        aluno.setPeriodo(Integer.valueOf(6));
-        aluno.build();
-
-        res.addAlunos(aluno);
-        res.setRetorno("1");
-        res.build();
-
+        /* Serializa resposta */
         byte[] msg = res.build().toByteArray();
-
+        
+        /* Manda tamanho da resposta */
+        String msgSize = String.valueOf(msg.length) + " \n";
+        byte[] size = msgSize.getBytes();
+        outClient.write(size);
+        
+        /* Manda resposta */
         outClient.write(msg);
 
       } //while

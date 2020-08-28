@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x11\x61\x64\x64ressbook.proto\"`\n\x03Req\x12\x0e\n\x06opCode\x18\x01 \x01(\t\x12\n\n\x02RA\x18\x02 \x01(\x05\x12\x0c\n\x04nota\x18\x03 \x01(\x02\x12\x10\n\x08\x64iscCode\x18\x04 \x01(\t\x12\x0b\n\x03\x61no\x18\x05 \x01(\x05\x12\x10\n\x08semestre\x18\x06 \x01(\x05\"2\n\x05\x41luno\x12\n\n\x02RA\x18\x01 \x01(\x05\x12\x0c\n\x04nome\x18\x02 \x01(\t\x12\x0f\n\x07periodo\x18\x03 \x01(\x05\".\n\x03Res\x12\x0f\n\x07retorno\x18\x01 \x01(\t\x12\x16\n\x06\x61lunos\x18\x02 \x03(\x0b\x32\x06.Alunob\x06proto3'
+  serialized_pb=b'\n\x11\x61\x64\x64ressbook.proto\"`\n\x03Req\x12\x0e\n\x06opCode\x18\x01 \x01(\t\x12\n\n\x02RA\x18\x02 \x01(\x05\x12\x0c\n\x04nota\x18\x03 \x01(\x02\x12\x10\n\x08\x64iscCode\x18\x04 \x01(\t\x12\x0b\n\x03\x61no\x18\x05 \x01(\x05\x12\x10\n\x08semestre\x18\x06 \x01(\x05\"P\n\x05\x41luno\x12\n\n\x02RA\x18\x01 \x01(\x05\x12\x0c\n\x04nome\x18\x02 \x01(\t\x12\x0f\n\x07periodo\x18\x03 \x01(\x05\x12\x0c\n\x04nota\x18\x04 \x01(\x02\x12\x0e\n\x06\x66\x61ltas\x18\x05 \x01(\x05\".\n\x03Res\x12\x0f\n\x07retorno\x18\x01 \x01(\t\x12\x16\n\x06\x61lunos\x18\x02 \x03(\x0b\x32\x06.Alunob\x06proto3'
 )
 
 
@@ -121,6 +121,20 @@ _ALUNO = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='nota', full_name='Aluno.nota', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='faltas', full_name='Aluno.faltas', index=4,
+      number=5, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -134,7 +148,7 @@ _ALUNO = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=119,
-  serialized_end=169,
+  serialized_end=199,
 )
 
 
@@ -172,8 +186,8 @@ _RES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=171,
-  serialized_end=217,
+  serialized_start=201,
+  serialized_end=247,
 )
 
 _RES.fields_by_name['alunos'].message_type = _ALUNO
