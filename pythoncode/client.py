@@ -14,9 +14,9 @@ client_socket.connect(("localhost", 7000))
 
 # Instanciar e preencher a estrutura
 req = addressbook_pb2.Req()
-req.opCode = "addNota"
-req.RA = 1234
-req.nota = 3.3
+req.opCode = "listAlunos"
+req.RA = 1858
+req.nota = 95
 req.discCode = "bcc32c"
 req.ano = 2020
 req.semestre = 1
