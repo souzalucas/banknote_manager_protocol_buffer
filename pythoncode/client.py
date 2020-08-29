@@ -1,16 +1,20 @@
 import socket
-import addressbook_pb2
+import banknoteManager_pb2
 import sqlite3
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(("localhost", 7000))
 
 def main():
+  print("[addNota] Adiciona nota a um aluno")
+  print("[rmNota] Remove a nota de um aluno")
+  print("[listAlunos] Lista os alunos de uma disciplina em um ano/semestre\n")
   while(True):
+
     opCode = input("Que operação deseja fazer? > ")
 
     # Instanciando a estrutura
-    req = addressbook_pb2.Req()
+    req = banknoteManager_pb2.Req()
     req.opCode = str(opCode)
 
     if (opCode == "addNota"):
@@ -48,6 +52,9 @@ def main():
       req.discCode = str(discCode)
       req.ano = int(ano)
       req.semestre = int(semestre)
+
+    elif (opCode == "exit"):
+      break
     
     else:
       continue
@@ -66,18 +73,19 @@ def main():
 
     # Recebendo resposta
     resposta = client_socket.recv(2014)
-    res = addressbook_pb2.Res()
+    res = banknoteManager_pb2.Res()
     res.ParseFromString(resposta)
 
     if (res.retorno == "1"):
       if (opCode == "listAlunos"):
         for aluno in res.alunos:
-          print("RA: ", aluno.RA)
-          print("Nome: ", aluno.nome)
-          print("Periodo: ", aluno.periodo)
-          print("Nota: ", aluno.nota)
-          print("Faltas: ", aluno.faltas)
-          print("-------------------- \n")
+          print("\nRA:", aluno.RA)
+          print("Nome:", aluno.nome)
+          print("Periodo:", aluno.periodo)
+          print("Nota:", aluno.nota)
+          print("Faltas:", aluno.faltas)
+          print("--------------------")
+      
       else:
         print("Operação realizada com sucesso")
 

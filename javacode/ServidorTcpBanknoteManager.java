@@ -7,11 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.lang.Integer; 
 
-public class ServidorTcpAddressBook {
+public class ServidorTcpBanknoteManager {
 
   static Connection dbConnection;
 
-  public static String addNota(Addressbook.Req req, Addressbook.Res.Builder res) {
+  public static String addNota(BanknoteManager.Req req, BanknoteManager.Res.Builder res) {
     int RA = req.getRA();
     String discCode = req.getDiscCode();
     int ano = req.getAno();
@@ -59,7 +59,7 @@ public class ServidorTcpAddressBook {
     return "1";
   }
 
-  public static String rmNota(Addressbook.Req req, Addressbook.Res.Builder res) {
+  public static String rmNota(BanknoteManager.Req req, BanknoteManager.Res.Builder res) {
     int RA = req.getRA();
     String discCode = req.getDiscCode();
     int ano = req.getAno();
@@ -106,7 +106,7 @@ public class ServidorTcpAddressBook {
     return "1";
   }
 
-  public static String listAlunos(Addressbook.Req req, Addressbook.Res.Builder res) {
+  public static String listAlunos(BanknoteManager.Req req, BanknoteManager.Res.Builder res) {
     String discCode = req.getDiscCode();
     int ano = req.getAno();
     int semestre = req.getSemestre();
@@ -133,8 +133,8 @@ public class ServidorTcpAddressBook {
 
       while (resultSet.next()) {
 
-        /* Construindo Addressbook Aluno */
-        Addressbook.Aluno.Builder aluno = Addressbook.Aluno.newBuilder();
+        /* Construindo Aluno */
+        BanknoteManager.Aluno.Builder aluno = BanknoteManager.Aluno.newBuilder();
         
         /* Adicionando valores no aluno */
         aluno.setRA(resultSet.getInt("ra"));
@@ -183,12 +183,13 @@ public class ServidorTcpAddressBook {
         inClient.read(buffer);
 
         /* realiza o unmarshalling */
-        Addressbook.Req req = Addressbook.Req.parseFrom(buffer);
+        BanknoteManager.Req req = BanknoteManager.Req.parseFrom(buffer);
         String opCode = req.getOpCode();
 
         /* Prepara resposta */
-        Addressbook.Res.Builder res = Addressbook.Res.newBuilder();
+        BanknoteManager.Res.Builder res = BanknoteManager.Res.newBuilder();
 
+        /* Chama a função de acordo com o opCode */
         switch(opCode) {
           case "addNota":
             addNota(req, res);
