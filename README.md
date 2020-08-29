@@ -8,7 +8,7 @@ Um serviço de gerenciamento de notas de alunos usando o método de serializaç�
 > mkdir protoc
 > cd protoc
 > wget https://github.com/protocolbuffers/protobuf/releases/download/v3.13.0/protoc-3.13.0-linux-x86_64.zip
-> unzip protoc−3.13.0−linux−x86 64.zip
+> unzip protoc-3.13.0-linux-x86_64.zip
 ```
 
 ### Criar atalho para o protoc
