@@ -1,6 +1,17 @@
 # banknote_manager_protocol_buffer
 Um serviço de gerenciamento de notas de alunos usando o método de serialização Protocol Buffer. 
 
+## Bibliotecas utilizadas
+
+### Java
+- java.net
+- java.io
+- java.sql
+
+### Python
+- socket
+- sqlite3
+
 ## Instalação de dependências
 
 ### Clonar e acessar repositório
