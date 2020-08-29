@@ -1,9 +1,9 @@
 # banknote_manager_protocol_buffer
 Um serviço de gerenciamento de notas de alunos usando o método de serialização Protocol Buffer. 
 
-## Instalação de dependências:
+## Instalação de dependências
 
-### Obter compilador protoc e descompactar
+### Obter e descompactar o compilador protoc
 ```
 > mkdir protoc
 > wget https://github.com/protocolbuffers/protobuf/releases/download/v3.13.0/protoc-3.13.0-linux-x86_64.zip
@@ -36,13 +36,13 @@ Um serviço de gerenciamento de notas de alunos usando o método de serializaç�
 
 ## Compilação e execução
 
-### Compilar e executar o servidor em javacode/
+### Compilar e executar o servidor no diretório javacode
 ```
 > javac -cp ":lib/*" *.java -Xlint
 > java -cp ":lib/*" ServidorTcpBanknoteManager
 ```
 
-### Executar o cliente em pythoncode/
+### Executar o cliente no diretório pythoncode
 ```
 > python3 client.py
 ```
