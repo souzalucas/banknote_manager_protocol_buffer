@@ -56,4 +56,19 @@ python3 client.py
 addNota
 ```
 
-### E por fim, insira as informações da disciplina.
+### E por fim, insira as informações da disciplina. O resultado sairá como:
+```
+RA: 1858
+Nome: Lucas Souza
+Periodo: 6
+Nota: 10.0
+Faltas: 5
+--------------------
+
+RA: 1859
+Nome: Rodolfo
+Periodo: 7
+Nota: 0.0
+Faltas: 1
+--------------------
+```
