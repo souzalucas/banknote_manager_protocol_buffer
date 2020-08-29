@@ -70,7 +70,7 @@ python3 client.py
 
 ### No cliente, digite o codigo da operação
 ```
-addNota
+listAlunos
 ```
 
 ### E por fim, insira as informações da disciplina. O resultado sairá como:
