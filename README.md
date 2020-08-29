@@ -49,7 +49,7 @@ java -cp ":lib/*" ServidorTcpBanknoteManager
 python3 client.py
 ```
 
-## Exemplo de uso (Listas alunos em uma disciplina)
+## Exemplo de uso (Listar alunos em uma disciplina)
 
 ### No cliente, digite o codigo da operação
 ```
