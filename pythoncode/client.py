@@ -1,3 +1,10 @@
+# client.py
+# Cliente TCP de um serviço de gerenciamento de notas de alunos 
+# usando o método de serialização Protocol Buffer.
+# Autores: Lucas Souza Santos & Alan Rodrigo Patriarca 
+# Data de Criação: 26/08/2020
+# Ultima atualização: 30/08/2020
+
 import socket
 import banknoteManager_pb2
 import sqlite3
