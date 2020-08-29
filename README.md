@@ -30,6 +30,7 @@ Um serviço de gerenciamento de notas de alunos usando o método de serializaç�
 
 ### Obter APIs Java
 ```
+> mkdir javacode/lib
 > cd javacode/lib
 > wget https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.13.0/protobuf-java-3.13.0.jar
 > wget https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.32.3.2/sqlite-jdbc-3.32.3.2.jar
