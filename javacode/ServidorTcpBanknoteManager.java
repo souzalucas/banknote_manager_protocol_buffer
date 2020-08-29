@@ -1,170 +1,14 @@
 import java.net.*;
 import java.io.*;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.lang.Integer; 
+import java.sql.*;
 
 public class ServidorTcpBanknoteManager {
 
   static Connection dbConnection;
-
-  public static String addNota(BanknoteManager.Req req, BanknoteManager.Res.Builder res) {
-    int RA = req.getRA();
-    String discCode = req.getDiscCode();
-    int ano = req.getAno();
-    int semestre = req.getSemestre();
-    float nota = req.getNota();
-
-    try {
-
-      Statement statement = dbConnection.createStatement();
-
-      /* Busca pelo aluno */
-      ResultSet resultSet = statement.executeQuery("SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");");
-      if(!resultSet.isBeforeFirst()){
-        res.setRetorno("RA inexistente");
-        res.build();
-        return "RA inexistente";
-      }
-
-      /* Busca pela disiplina */
-      resultSet = statement.executeQuery("SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(discCode) + "');");
-      if(!resultSet.isBeforeFirst()){
-        res.setRetorno("Disciplina inexistente");
-        res.build();
-        return "Disciplina inexistente";
-      }
-
-      /* Busca pela matricula */
-      resultSet = statement.executeQuery("SELECT * FROM matricula WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");");
-      if(!resultSet.isBeforeFirst()){
-        res.setRetorno("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
-        res.build();
-        return ("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
-      }
-
-      /* Atualiza nota */
-      statement.execute("UPDATE matricula SET nota = " + String.valueOf(nota) + " WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");");
-      res.setRetorno("1");
-      res.build();
-
-    } catch (SQLException e) {
-      res.setRetorno(String.valueOf(e.getMessage()));
-      res.build();
-      return String.valueOf(e.getMessage());
-    }
-    return "1";
-  }
-
-  public static String rmNota(BanknoteManager.Req req, BanknoteManager.Res.Builder res) {
-    int RA = req.getRA();
-    String discCode = req.getDiscCode();
-    int ano = req.getAno();
-    int semestre = req.getSemestre();
-
-    try {
-
-      Statement statement = dbConnection.createStatement();
-
-      /* Busca pelo aluno */
-      ResultSet resultSet = statement.executeQuery("SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");");
-      if(!resultSet.isBeforeFirst()){
-        res.setRetorno("RA inexistente");
-        res.build();
-        return "RA inexistente";
-      }
-
-      /* Busca pela disiplina */
-      resultSet = statement.executeQuery("SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(discCode) + "');");
-      if(!resultSet.isBeforeFirst()){
-        res.setRetorno("Disciplina inexistente");
-        res.build();
-        return "Disciplina inexistente";
-      }
-
-      /* Busca pela matricula */
-      resultSet = statement.executeQuery("SELECT * FROM matricula WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");");
-      if(!resultSet.isBeforeFirst()){
-        res.setRetorno("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
-        res.build();
-        return ("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
-      }
-
-      /* remove nota */
-      statement.execute("UPDATE matricula SET nota = '' WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");");
-      res.setRetorno("1");
-      res.build();
-
-    } catch (SQLException e) {
-      res.setRetorno(String.valueOf(e.getMessage()));
-      res.build();
-      return String.valueOf(e.getMessage());
-    }
-    return "1";
-  }
-
-  public static String listAlunos(BanknoteManager.Req req, BanknoteManager.Res.Builder res) {
-    String discCode = req.getDiscCode();
-    int ano = req.getAno();
-    int semestre = req.getSemestre();
-
-    try {
-
-      Statement statement = dbConnection.createStatement();
-
-      /* Busca pela disiplina */
-      ResultSet resultSet = statement.executeQuery("SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(discCode) + "');");
-      if(!resultSet.isBeforeFirst()){
-        res.setRetorno("Disciplina inexistente");
-        res.build();
-        return "Disciplina inexistente";
-      }
-      
-      /* Lista alunos */
-      resultSet = statement.executeQuery("SELECT * FROM aluno, matricula WHERE (select ra_aluno FROM matricula WHERE ano = " + String.valueOf(ano) + " AND semestre = " + String.valueOf(semestre) + " AND cod_disciplina = '" + String.valueOf(discCode) + "') AND matricula.ra_aluno = aluno.ra;");
-      if(!resultSet.isBeforeFirst()){
-        res.setRetorno("Nesta disciplina nao ha alunos matriculados em " + String.valueOf(ano) + "/" + String.valueOf(semestre));
-        res.build();
-        return ("Nesta disciplina nao ha alunos matriculados em " + String.valueOf(ano) + "/" + String.valueOf(semestre));
-      }
-
-      while (resultSet.next()) {
-
-        /* Construindo Aluno */
-        BanknoteManager.Aluno.Builder aluno = BanknoteManager.Aluno.newBuilder();
-        
-        /* Adicionando valores no aluno */
-        aluno.setRA(resultSet.getInt("ra"));
-        aluno.setNome(resultSet.getString("nome"));
-        aluno.setPeriodo(resultSet.getInt("periodo"));
-        aluno.setNota(resultSet.getFloat("nota"));
-        aluno.setFaltas(resultSet.getInt("faltas"));
-        aluno.build();
-
-        /* Adicionando aluno */
-        res.addAlunos(aluno);
-      }
-  
-      res.setRetorno("1");
-      res.build();
-
-    } catch (SQLException e) {
-      res.setRetorno(String.valueOf(e.getMessage()));
-      res.build();
-      return String.valueOf(e.getMessage());
-    }
-    return "1";
-  }
-
   public static void main(String args[]) {
     
     // Conexao com banco de dados
-    SQLiteJDBCDriverConnection driverCon = new SQLiteJDBCDriverConnection();
-    driverCon.main(new String[1]);
-    dbConnection = driverCon.getConnection();
+    dbConnection = SQLiteJDBCDriverConnection.connect();
 
     try {
       int serverPort = 7000;
@@ -186,21 +30,21 @@ public class ServidorTcpBanknoteManager {
         BanknoteManager.Req req = BanknoteManager.Req.parseFrom(buffer);
         String opCode = req.getOpCode();
 
-        /* Prepara resposta */
+        /* Instancia a resposta */
         BanknoteManager.Res.Builder res = BanknoteManager.Res.newBuilder();
 
-        /* Chama a função de acordo com o opCode */
+        /* Chama a funcionalidade de acordo com o opCode */
         switch(opCode) {
           case "addNota":
-            addNota(req, res);
+            Functionalities.addNota(req, res, dbConnection);
           break;
 
           case "rmNota":
-            rmNota(req, res);
+            Functionalities.rmNota(req, res, dbConnection);
           break;
 
           case "listAlunos":
-            listAlunos(req, res);
+            Functionalities.listAlunos(req, res, dbConnection);
           break;
 
           default:
