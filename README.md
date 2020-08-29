@@ -56,4 +56,4 @@ python3 client.py
 addNota
 ```
 
-#### E por fim, insira as informações da disciplina
+### E por fim, insira as informações da disciplina.
