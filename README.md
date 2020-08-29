@@ -58,15 +58,15 @@ addNota
 
 ### E por fim, insira as informações da disciplina. O resultado sairá como:
 ```
-RA: 1858
-Nome: Lucas Souza
+RA: 111111
+Nome: Fulano
 Periodo: 6
 Nota: 10.0
 Faltas: 5
 --------------------
 
-RA: 1859
-Nome: Rodolfo
+RA: 222222
+Nome: Ciclano
 Periodo: 7
 Nota: 0.0
 Faltas: 1
