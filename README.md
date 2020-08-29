@@ -3,6 +3,12 @@ Um serviço de gerenciamento de notas de alunos usando o método de serializaç�
 
 ## Instalação de dependências
 
+### Clonar e acessar repositório
+```
+git clone https://github.com/souzalucas/banknote_manager_protocol_buffer.git
+cd banknote_manager_protocol_buffer
+```
+
 ### Obter e descompactar o compilador protoc
 ```
 mkdir protoc
