@@ -26,7 +26,7 @@ def main():
 
     if (opCode == "addNota"):
       ra = input("RA do aluno > ")
-      discCode = input("Disciplina > ")
+      discCode = input("Codigo da Disciplina > ")
       ano = input("Ano > ")
       semestre = input("Semestre > ")
       nota = input("Nota > ")
@@ -40,7 +40,7 @@ def main():
 
     elif (opCode == "rmNota"):
       ra = input("RA do aluno > ")
-      discCode = input("Disciplina > ")
+      discCode = input("Codigo da Disciplina > ")
       ano = input("Ano > ")
       semestre = input("Semestre > ")
 
