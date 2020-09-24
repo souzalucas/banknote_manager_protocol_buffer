@@ -58,12 +58,12 @@ wget https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.32.3.2/sqlite-jdbc-
 ### Compilar e executar o servidor no diretório javacode
 ```
 javac -cp ":lib/*" *.java -Xlint
-java -cp ":lib/*" ServidorTcpBanknoteManager
+java -cp ":lib/*" ServerTcpBanknoteManager
 ```
 
 ### Executar o cliente no diretório pythoncode
 ```
-python3 client.py
+python3 clientTcpBanknoteManager.py
 ```
 
 ## Exemplo de uso (Listar alunos em uma disciplina)
