@@ -76,5 +76,15 @@ public class ServerTcpBanknoteManager {
     } catch (IOException e) {
       System.out.println("Listen_Socket:" + e.getMessage());
     } //catch
+
+    /* Fecha a conexao com o banco de dados */
+    try {
+      if (dbConnection != null) {
+        dbConnection.close();
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+    }
+
   } //main
 } //class
