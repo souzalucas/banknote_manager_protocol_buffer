@@ -1,5 +1,5 @@
 /**
-* SQLiteJDBCDriverConnection.java
+* Functionalities.java
 * Código das funcionalidades de um serviço de gerenciamento 
 * de notas de alunos usando o método de serialização Protocol Buffer.
 * Autores: Lucas Souza Santos & Alan Rodrigo Patriarca 
@@ -56,7 +56,7 @@ public class Functionalities {
   }
 
   public static String rmNota(BanknoteManager.Req req, BanknoteManager.Res.Builder res, Connection dbConnection) {
-    /* Obtendo os dados para a busca e insercao */
+    /* Obtendo os dados para a busca e remocao */
     int RA = req.getRA();
     String discCode = req.getDiscCode();
     int ano = req.getAno();
@@ -88,7 +88,7 @@ public class Functionalities {
       }
 
       /* remove nota */
-      statement.execute("UPDATE matricula SET nota = '' WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");");
+      statement.execute("UPDATE matricula SET nota = -1 WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");");
       res.setRetorno("1");
 
     } catch (SQLException e) {
