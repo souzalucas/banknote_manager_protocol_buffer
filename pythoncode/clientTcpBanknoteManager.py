@@ -24,48 +24,45 @@ def main():
     req = banknoteManager_pb2.Req()
     req.opCode = str(opCode)
 
-    if (opCode == "addNota"):
-      ra = input("RA do aluno > ")
-      discCode = input("Codigo da Disciplina > ")
-      ano = input("Ano > ")
-      semestre = input("Semestre > ")
-      nota = input("Nota > ")
-
-      # Preencher a estrutura
-      req.RA = int(ra)
-      req.discCode = str(discCode)
-      req.ano = int(ano)
-      req.semestre = int(semestre)
-      req.nota = float(nota)
-
-    elif (opCode == "rmNota"):
-      ra = input("RA do aluno > ")
+    # Preenche a estrutura de acordo com o opCode
+    if (opCode == "addNota" or opCode == "rmNota" or opCode == "listAlunos"):
       discCode = input("Codigo da Disciplina > ")
       ano = input("Ano > ")
       semestre = input("Semestre > ")
 
-      # Peencher a estrutura
-      req.RA = int(ra)
+      # Tratando campos vazios
+      if(discCode == '' or ano == '' or semestre == ''):
+        print("ERRO: CAMPOS VAZIOS!")
+        continue
+
       req.discCode = str(discCode)
       req.ano = int(ano)
       req.semestre = int(semestre)
 
-    elif (opCode == "listAlunos"):
-      discCode = input("Codigo da disciplina > ")
-      ano = input("Ano > ")
-      semestre = input("semestre > ")
-
-      # Preencher a estrutura
-      req.discCode = str(discCode)
-      req.ano = int(ano)
-      req.semestre = int(semestre)
-
-    elif (opCode == "exit"):
-      break
-    
     else:
+      print("ERRO: OPERACAO INVALIDA!")
       continue
 
+    if (opCode == "addNota" or opCode == "rmNota"):
+      ra = input("RA do aluno > ")
+
+      # Tratando campos vazios
+      if(ra == ''):
+        print("ERRO: CAMPO VAZIO!")
+        continue
+      
+      req.RA = int(ra)
+      
+    if (opCode == "addNota"):
+      nota = input("Nota > ")
+
+      # Tratando campos vazios
+      if(nota == ''):
+        print("ERRO: CAMPO VAZIO!")
+        continue
+
+      req.nota = float(nota)
+    
     # Marshalling
     msg = req.SerializeToString()
     size = len(msg)
@@ -89,7 +86,12 @@ def main():
           print("\nRA:", aluno.RA)
           print("Nome:", aluno.nome)
           print("Periodo:", aluno.periodo)
-          print("Nota:", aluno.nota)
+          
+          if (aluno.nota == float(-1)):
+            print("Nota: N/A")
+          else:
+            print("Nota:", aluno.nota)
+
           print("Faltas:", aluno.faltas)
           print("--------------------")
       
