@@ -116,7 +116,7 @@ public class Functionalities {
       }
       
       /* Lista alunos */
-      resultSet = statement.executeQuery("SELECT * FROM aluno, matricula WHERE (select ra_aluno FROM matricula WHERE ano = " + String.valueOf(ano) + " AND semestre = " + String.valueOf(semestre) + " AND cod_disciplina = '" + String.valueOf(discCode) + "') AND matricula.ra_aluno = aluno.ra;");
+      resultSet = statement.executeQuery("SELECT * FROM aluno WHERE (select ra_aluno FROM matricula WHERE ano = " + String.valueOf(ano) + " AND semestre = " + String.valueOf(semestre) + " AND cod_disciplina = '" + String.valueOf(discCode) + "' AND matricula.ra_aluno = aluno.ra);");
       if(!resultSet.isBeforeFirst()){
         res.setRetorno("Nesta disciplina nao ha alunos matriculados em " + String.valueOf(ano) + "/" + String.valueOf(semestre));
         return ("Nesta disciplina nao ha alunos matriculados em " + String.valueOf(ano) + "/" + String.valueOf(semestre));
@@ -131,8 +131,6 @@ public class Functionalities {
         aluno.setRA(resultSet.getInt("ra"));
         aluno.setNome(resultSet.getString("nome"));
         aluno.setPeriodo(resultSet.getInt("periodo"));
-        aluno.setNota(resultSet.getFloat("nota"));
-        aluno.setFaltas(resultSet.getInt("faltas"));
 
         /* Adicionando aluno */
         res.addAlunos(aluno);
